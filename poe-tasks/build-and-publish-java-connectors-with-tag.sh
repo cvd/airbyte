@@ -74,7 +74,8 @@ is_in_whitelist() {
     destination-yellowbrick|\
     source-e2e-test|\
     source-postgres|\
-    source-mysql)
+    source-mysql|\
+    source-snowflake)
       return 0
       ;;
     *)
