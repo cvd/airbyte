@@ -54,6 +54,41 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateSourceConfigTemplateRequest"
+              },
+              "examples": {
+                "postgres_source": {
+                  "summary": "PostgreSQL source config template",
+                  "description": "Example for creating a PostgreSQL source configuration template",
+                  "value": {
+                    "organization_id": "123e4567-e89b-12d3-a456-426614174000",
+                    "actor_definition_id": "decd338e-5647-4c0b-adf4-da0e75f5a750",
+                    "partial_default_config": {
+                      "host": "localhost",
+                      "port": 5432,
+                      "database": "postgres",
+                      "schemas": ["public"],
+                      "ssl_mode": {
+                        "mode": "prefer"
+                      },
+                      "replication_method": {
+                        "method": "Standard"
+                      }
+                    }
+                  }
+                },
+                "stripe_source": {
+                  "summary": "Stripe source config template", 
+                  "description": "Example for creating a Stripe source configuration template",
+                  "value": {
+                    "organization_id": "123e4567-e89b-12d3-a456-426614174000",
+                    "actor_definition_id": "e094cb9a-26de-4645-8761-65c0c425d1de",
+                    "partial_default_config": {
+                      "client_secret": "sk_live_**hidden**",
+                      "account_id": "acct_**hidden**",
+                      "start_date": "2023-01-01T00:00:00Z"
+                    }
+                  }
+                }
               }
             }
           }
@@ -65,6 +100,26 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateSourceConfigTemplateResponse"
+                },
+                "examples": {
+                  "success_example": {
+                    "summary": "Successful creation",
+                    "description": "Example of a successfully created source config template",
+                    "value": {
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "organization_id": "123e4567-e89b-12d3-a456-426614174000",
+                      "actor_definition_id": "456e7890-e89b-12d3-a456-426614174111", 
+                      "partial_default_config": {
+                        "credentials": {
+                          "client_id": "your_client_id",
+                          "client_secret": "**hidden**"
+                        },
+                        "start_date": "2023-01-01T00:00:00Z"
+                      },
+                      "created_at": "2024-07-14T10:30:00Z",
+                      "updated_at": "2024-07-14T10:30:00Z"
+                    }
+                  }
                 }
               }
             }
@@ -75,6 +130,27 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "Validation error example",
+                    "description": "Example of a validation error response",
+                    "value": {
+                      "message": "Invalid request data",
+                      "errors": [
+                        {
+                          "field": "organization_id",
+                          "message": "Organization ID is required",
+                          "error_code": "REQUIRED_FIELD"
+                        },
+                        {
+                          "field": "actor_definition_id", 
+                          "message": "Invalid UUID format",
+                          "error_code": "INVALID_FORMAT"
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
@@ -1020,7 +1096,8 @@
                 "type": "null"
               }
             ],
-            "title": "Message"
+            "title": "Message",
+            "example": "Invalid request data"
           },
           "errors": {
             "items": {
@@ -1032,7 +1109,22 @@
           }
         },
         "type": "object",
-        "title": "ApiErrorResponse"
+        "title": "ApiErrorResponse",
+        "example": {
+          "message": "Invalid request data",
+          "errors": [
+            {
+              "field": "organization_id",
+              "message": "Organization ID is required",
+              "error_code": "REQUIRED_FIELD"
+            },
+            {
+              "field": "actor_definition_id",
+              "message": "Invalid UUID format",
+              "error_code": "INVALID_FORMAT"
+            }
+          ]
+        }
       },
       "ConnectionSpecification": {
         "properties": {
@@ -1350,16 +1442,27 @@
           "organization_id": {
             "type": "string",
             "format": "uuid",
-            "title": "Organization Id"
+            "title": "Organization Id",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           "actor_definition_id": {
             "type": "string",
             "format": "uuid",
-            "title": "Actor Definition Id"
+            "title": "Actor Definition Id",
+            "example": "decd338e-5647-4c0b-adf4-da0e75f5a750"
           },
           "partial_default_config": {
             "type": "object",
-            "title": "Partial Default Config"
+            "title": "Partial Default Config",
+            "example": {
+              "host": "localhost",
+              "port": 5432,
+              "database": "postgres",
+              "schemas": ["public"],
+              "ssl_mode": {
+                "mode": "prefer"
+              }
+            }
           }
         },
         "type": "object",
@@ -1368,19 +1471,39 @@
           "actor_definition_id",
           "partial_default_config"
         ],
-        "title": "CreateSourceConfigTemplateRequest"
+        "title": "CreateSourceConfigTemplateRequest",
+        "example": {
+          "organization_id": "123e4567-e89b-12d3-a456-426614174000",
+          "actor_definition_id": "decd338e-5647-4c0b-adf4-da0e75f5a750",
+          "partial_default_config": {
+            "host": "localhost",
+            "port": 5432,
+            "database": "postgres",
+            "schemas": ["public"],
+            "ssl_mode": {
+              "mode": "prefer"
+            },
+            "replication_method": {
+              "method": "Standard"
+            }
+          }
+        }
       },
       "CreateSourceConfigTemplateResponse": {
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid",
-            "title": "Id"
+            "title": "Id",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
           }
         },
         "type": "object",
         "required": ["id"],
-        "title": "CreateSourceConfigTemplateResponse"
+        "title": "CreateSourceConfigTemplateResponse",
+        "example": {
+          "id": "550e8400-e29b-41d4-a716-446655440000"
+        }
       },
       "GetConnectionConfigTemplateOut": {
         "properties": {
