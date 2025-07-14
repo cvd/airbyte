@@ -366,6 +366,9 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ["bash", "diff", "json", "hcl"],
       },
+      // apiDocs: {
+      //   enabled: true,
+      // },
     }),
 };
 

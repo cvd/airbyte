@@ -5,6 +5,16 @@
     "description": "Sonar API",
     "version": "0.0.1"
   },
+  "servers": [
+    {
+      "url": "https://api.airbyte.com",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Development server"
+    }
+  ],
   "tags": [
     {
       "name": "source_config_template",
